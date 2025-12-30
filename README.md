@@ -1,4 +1,4 @@
-# enforce-radix-primitives
+# Claude Code skill: Enforce Radix primitives
 
 A Claude Code skill that enforces [Radix Themes](https://www.radix-ui.com/themes) components over raw HTML and Tailwind CSS in React/Next.js projects.
 
