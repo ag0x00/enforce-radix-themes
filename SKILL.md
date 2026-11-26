@@ -99,11 +99,60 @@ export default function SettingsPage() {
 | Instead of | Use | Example |
 |------------|-----|---------|
 | `<button>` | `<Button>` | `<Button variant="soft" size="2">` |
+| `<button>` (icon only) | `<IconButton>` | `<IconButton size="2" variant="ghost">` |
 | `<input type="text">` | `<TextField.Root>` | `<TextField.Root placeholder="...">` |
 | `<textarea>` | `<TextArea>` | `<TextArea size="2">` |
 | `<select>` | `<Select.Root>` | Radix Select compound component |
 | `<input type="checkbox">` | `<Checkbox>` | `<Checkbox defaultChecked />` |
 | `<input type="radio">` | `<RadioGroup>` | Radix RadioGroup compound |
+
+### Icons and Theme Compatibility
+
+**Icons inherit colors from their parent Radix component via `currentColor`.**
+
+Most icon libraries (Lucide, react-icons, Heroicons) work automatically because they use `currentColor`. When placed inside a Radix component, icons inherit the theme's text color.
+
+```tsx
+// Icons automatically inherit theme colors
+<Button>
+  <PlusIcon /> {/* Inherits button text color */}
+  Add Item
+</Button>
+
+<IconButton variant="ghost">
+  <TrashIcon /> {/* Inherits IconButton color */}
+</IconButton>
+
+<Text color="gray">
+  <InfoIcon /> {/* Inherits gray text color */}
+  Note
+</Text>
+```
+
+**Icon libraries compatibility:**
+- ✅ `@radix-ui/react-icons` - Designed for Radix, recommended
+- ✅ `lucide-react` - Uses `currentColor`, works seamlessly
+- ✅ `@heroicons/react` - Uses `currentColor`, works seamlessly
+- ✅ `react-icons` - Most icons use `currentColor`
+- ⚠️ Custom SVGs - Ensure `fill="currentColor"` or `stroke="currentColor"`
+
+**When to use Radix Icons:**
+- Consistency: Radix Icons match the design system's visual weight
+- For new projects or major UI components
+- Not required for existing projects with established icon libraries
+
+**Fixing icons that don't inherit colors:**
+
+```tsx
+// BAD - hardcoded color
+<svg fill="#000000">...</svg>
+
+// GOOD - inherits from parent
+<svg fill="currentColor">...</svg>
+
+// For icons that only have stroke
+<svg stroke="currentColor" fill="none">...</svg>
+```
 
 ### Theme Props (Replace Tailwind Classes)
 
@@ -280,6 +329,8 @@ import { Skeleton, Button } from '@radix-ui/themes';
 
 // Interactive
 <Button variant="soft" size="2">
+<IconButton size="2" variant="ghost">
+<IconButton size="2" radius="full">  // Circular
 <TextField.Root placeholder="..." size="2">
 <TextArea placeholder="..." />
 <Checkbox defaultChecked />
